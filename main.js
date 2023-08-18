@@ -39,6 +39,17 @@ function onSubmit(e) {
         }, 3000);
     }
     else {
+                //adding to local storage as object 
+                const userdata = {
+                    userName: `${nameInput.value}`,
+                    userEmail: `${emailInput.value}`,
+                    userPhone: `${phoneInput.value}`
+                }
+                const userDatastring=JSON.stringify(userdata);
+                localStorage.setItem(`${emailInput.value}`, `${JSON.stringify(userdata)}`);
+
+                //adding details to browser 
+
         const li = document.createElement('li');
         li.appendChild(document.createTextNode(` Name: ${nameInput.value}, Email: ${emailInput.value}, Phone No:${phoneInput.value}`));
         userList.appendChild(li);
@@ -46,7 +57,7 @@ function onSubmit(e) {
         const deleBtn = document.createElement('button');
         deleBtn.className = 'delbtn';
         deleBtn.setAttribute("type", "submit");
-        deleBtn.setAttribute("id", `${emailInput.value}`);
+        deleBtn.setAttribute("id", `${userDatastring}`);
         deleBtn.innerText = 'Delete';
         userList.appendChild(deleBtn);
 
@@ -54,25 +65,14 @@ function onSubmit(e) {
         const editBtn = document.createElement('button');
         editBtn.className = 'editbtn';
         editBtn.setAttribute("type", "submit");
-        editBtn.setAttribute("id", `${emailInput.value}`);
-        editBtn.setAttribute("name", `${nameInput.value}`);
-        editBtn.setAttribute("value", `${phoneInput.value}`);
+        editBtn.setAttribute("id", `${userDatastring}`);
         editBtn.innerText = 'Edit';
         userList.appendChild(editBtn);
         //adding into local storage
         //  localStorage.setItem(`${nameInput.value}`,`${emailInput.value}`);
-
-        //adding to local storage as object 
-        const userdata = {
-            userName: `${nameInput.value}`,
-            userEmail: `${emailInput.value}`,
-            userPhone: `${phoneInput.value}`
-        }
-
-        localStorage.setItem(`${emailInput.value}`, `${JSON.stringify(userdata)}`);
-        nameInput.value = '';
-        emailInput.value = '';
-        phoneInput.value = '';
+                nameInput.value = '';
+                emailInput.value = '';
+                phoneInput.value = '';
     }
 
 }
@@ -96,7 +96,7 @@ function onDelete(e) {
     e.preventDefault();
     if (e.target.classList.contains('delbtn')) {
         //remove from local storage
-        const btnId = e.target.id;
+        const btnId = JSON.parse(e.target.id).userEmail;
         localStorage.removeItem(`${btnId}`);
 
         //delete value from browser
@@ -106,13 +106,14 @@ function onDelete(e) {
     }
     if (e.target.classList.contains('editbtn')) {
         //remove from local storage
-        const btnId = e.target.id;
+        const btnId = JSON.parse(e.target.id);
         localStorage.removeItem(`${btnId}`);
         
         //regain name and phone number
         const lists = document.querySelectorAll('input');
-        lists[0].value = `${e.target.name}`;
-        lists[2].value = `${e.target.value}`;
+        lists[0].value = `${btnId.userName}`;
+        lists[1].value =`${btnId.userEmail}`;
+        lists[2].value = `${btnId.userPhone}`;
         //delete value from browser
         e.target.previousElementSibling.remove();
         e.target.previousElementSibling.remove();
