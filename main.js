@@ -107,7 +107,7 @@ function onDelete(e) {
     if (e.target.classList.contains('editbtn')) {
         //remove from local storage
         const btnId = JSON.parse(e.target.id);
-        localStorage.removeItem(`${btnId}`);
+        localStorage.removeItem(`${btnId.userEmail}`);
         
         //regain name and phone number
         const lists = document.querySelectorAll('input');
