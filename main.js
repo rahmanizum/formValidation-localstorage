@@ -47,6 +47,7 @@ function onSubmit(e){
  const deleBtn= document.createElement('button');
  deleBtn.className='delbtn';
  deleBtn.setAttribute("type", "submit");
+ deleBtn.setAttribute("id", `${emailInput.value}`);
  deleBtn.innerText='Delete';
  userList.appendChild(deleBtn);
  console.log(userList);
@@ -86,6 +87,8 @@ userList.addEventListener('click',onDelete);
 function onDelete(e){
     e.preventDefault();
     if(e.target.classList.contains('delbtn')){
+        const btnId=e.target.id;
+        localStorage.removeItem(`${btnId}`);
         e.target.previousElementSibling.remove();
         e.target.remove();
     }
