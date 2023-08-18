@@ -44,9 +44,31 @@ function onSubmit(e){
  userList.appendChild(li);
 
  //adding into local storage
- localStorage.setItem(`${nameInput.value}`,`${emailInput.value}`);
-nameInput.value='';
-emailInput.value='';
+//  localStorage.setItem(`${nameInput.value}`,`${emailInput.value}`);
+// nameInput.value='';
+// emailInput.value='';
+
+//adding to local storage as object 
+const userdata= {
+    userName:`${nameInput.value}`,
+    userEmail:`${emailInput.value}`
+}
+
+localStorage.setItem(`userDetails`,`${JSON.stringify(userdata)}`);
     }
 
 }
+
+
+//this is how we can add object to local storage
+// const myObj={
+//     fname:'mufil Rahman A',
+//     lName:'rahman A',
+//     age:27
+// }
+
+// localStorage.setItem('object',`${JSON.stringify(myObj)}`);
+// console.log(localStorage);
+
+const det=JSON.parse(localStorage.getItem('userDetails'));
+console.log(det.userName);
