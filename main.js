@@ -3,7 +3,7 @@
 // ul.firstElementChild.textContent='Hello';
 // ul.firstElementChild.style.color='green';
 // ul.children[1].style.color='yellow';
- const btn = document.querySelector('.btn');
+const btn = document.querySelector('.btn');
 
 // btn.addEventListener('click', e => {  
 //     console.log('event click');
@@ -23,48 +23,56 @@
 const myForm = document.querySelector('#my-form');
 const nameInput = document.querySelector('#name');
 const emailInput = document.querySelector('#email');
-const phoneInput= document.querySelector('#phone');
+const phoneInput = document.querySelector('#phone');
 const msg = document.querySelector('.msg');
 const userList = document.querySelector('#users');
 
-myForm.addEventListener('submit',onSubmit);
+myForm.addEventListener('submit', onSubmit);
 
-function onSubmit(e){
+function onSubmit(e) {
     e.preventDefault();
-    if(nameInput.value===''|| emailInput.value===''|| phoneInput.value===''){
+    if (nameInput.value === '' || emailInput.value === '' || phoneInput.value === '') {
         msg.classList.add('error');
-        msg.innerHTML= 'Please Enter all fields';
+        msg.innerHTML = 'Please Enter all fields';
         setTimeout(() => {
             msg.remove()
         }, 3000);
     }
-    else
-    {
- const li= document.createElement('li');
- li.appendChild(document.createTextNode(` Name: ${nameInput.value}, Email: ${emailInput.value}, Phone No:${phoneInput.value}`));
- userList.appendChild(li);
+    else {
+        const li = document.createElement('li');
+        li.appendChild(document.createTextNode(` Name: ${nameInput.value}, Email: ${emailInput.value}, Phone No:${phoneInput.value}`));
+        userList.appendChild(li);
 
- const deleBtn= document.createElement('button');
- deleBtn.className='delbtn';
- deleBtn.setAttribute("type", "submit");
- deleBtn.setAttribute("id", `${emailInput.value}`);
- deleBtn.innerText='Delete';
- userList.appendChild(deleBtn);
- console.log(userList);
- //adding into local storage
-//  localStorage.setItem(`${nameInput.value}`,`${emailInput.value}`);
+        const deleBtn = document.createElement('button');
+        deleBtn.className = 'delbtn';
+        deleBtn.setAttribute("type", "submit");
+        deleBtn.setAttribute("id", `${emailInput.value}`);
+        deleBtn.innerText = 'Delete';
+        userList.appendChild(deleBtn);
 
-//adding to local storage as object 
-const userdata= {
-    userName:`${nameInput.value}`,
-    userEmail:`${emailInput.value}`,
-    userPhone:`${phoneInput.value}`
-}
+        //adding edit button 
+        const editBtn = document.createElement('button');
+        editBtn.className = 'editbtn';
+        editBtn.setAttribute("type", "submit");
+        editBtn.setAttribute("id", `${emailInput.value}`);
+        editBtn.setAttribute("name", `${nameInput.value}`);
+        editBtn.setAttribute("value", `${phoneInput.value}`);
+        editBtn.innerText = 'Edit';
+        userList.appendChild(editBtn);
+        //adding into local storage
+        //  localStorage.setItem(`${nameInput.value}`,`${emailInput.value}`);
 
-localStorage.setItem(`${emailInput.value}`,`${JSON.stringify(userdata)}`);
-nameInput.value='';
-emailInput.value='';
-phoneInput.value='';
+        //adding to local storage as object 
+        const userdata = {
+            userName: `${nameInput.value}`,
+            userEmail: `${emailInput.value}`,
+            userPhone: `${phoneInput.value}`
+        }
+
+        localStorage.setItem(`${emailInput.value}`, `${JSON.stringify(userdata)}`);
+        nameInput.value = '';
+        emailInput.value = '';
+        phoneInput.value = '';
     }
 
 }
@@ -82,14 +90,33 @@ phoneInput.value='';
 
 //create delete function 
 
-userList.addEventListener('click',onDelete);
+userList.addEventListener('click', onDelete);
 
-function onDelete(e){
+function onDelete(e) {
     e.preventDefault();
-    if(e.target.classList.contains('delbtn')){
-        const btnId=e.target.id;
+    if (e.target.classList.contains('delbtn')) {
+        //remove from local storage
+        const btnId = e.target.id;
         localStorage.removeItem(`${btnId}`);
+
+        //delete value from browser
+        e.target.previousElementSibling.remove();
+        e.target.nextElementSibling.remove();
+        e.target.remove();
+    }
+    if (e.target.classList.contains('editbtn')) {
+        //remove from local storage
+        const btnId = e.target.id;
+        localStorage.removeItem(`${btnId}`);
+        
+        //regain name and phone number
+        const lists = document.querySelectorAll('input');
+        lists[0].value = `${e.target.name}`;
+        lists[2].value = `${e.target.value}`;
+        //delete value from browser
+        e.target.previousElementSibling.remove();
         e.target.previousElementSibling.remove();
         e.target.remove();
     }
 }
+

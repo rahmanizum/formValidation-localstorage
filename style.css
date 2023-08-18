@@ -85,3 +85,13 @@
     border-radius: 5px;
     margin: 5px 155px; 
   }
+  .editbtn{
+    display: block;
+    width: 20%;
+    padding: 10px 15px;
+    border: 0;
+    background: #4d59f5;
+    color: #fff;
+    border-radius: 5px;
+    margin: 5px 155px; 
+  }
