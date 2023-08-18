@@ -44,6 +44,12 @@ function onSubmit(e){
  li.appendChild(document.createTextNode(` Name: ${nameInput.value}, Email: ${emailInput.value}, Phone No:${phoneInput.value}`));
  userList.appendChild(li);
 
+ const deleBtn= document.createElement('button');
+ deleBtn.className='delbtn';
+ deleBtn.setAttribute("type", "submit");
+ deleBtn.innerText='Delete';
+ userList.appendChild(deleBtn);
+ console.log(userList);
  //adding into local storage
 //  localStorage.setItem(`${nameInput.value}`,`${emailInput.value}`);
 
@@ -72,3 +78,15 @@ phoneInput.value='';
 
 // localStorage.setItem('object',`${JSON.stringify(myObj)}`);
 // console.log(localStorage);
+
+//create delete function 
+
+userList.addEventListener('click',onDelete);
+
+function onDelete(e){
+    e.preventDefault();
+    if(e.target.classList.contains('delbtn')){
+        e.target.previousElementSibling.remove();
+        e.target.remove();
+    }
+}
