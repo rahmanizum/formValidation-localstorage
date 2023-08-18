@@ -23,6 +23,7 @@
 const myForm = document.querySelector('#my-form');
 const nameInput = document.querySelector('#name');
 const emailInput = document.querySelector('#email');
+const phoneInput= document.querySelector('#phone');
 const msg = document.querySelector('.msg');
 const userList = document.querySelector('#users');
 
@@ -30,7 +31,7 @@ myForm.addEventListener('submit',onSubmit);
 
 function onSubmit(e){
     e.preventDefault();
-    if(nameInput.value===''|| emailInput===''){
+    if(nameInput.value===''|| emailInput.value===''|| phoneInput.value===''){
         msg.classList.add('error');
         msg.innerHTML= 'Please Enter all fields';
         setTimeout(() => {
@@ -40,21 +41,23 @@ function onSubmit(e){
     else
     {
  const li= document.createElement('li');
- li.appendChild(document.createTextNode(` Name: ${nameInput.value}, Email: ${emailInput.value}`));
+ li.appendChild(document.createTextNode(` Name: ${nameInput.value}, Email: ${emailInput.value}, Phone No:${phoneInput.value}`));
  userList.appendChild(li);
 
  //adding into local storage
 //  localStorage.setItem(`${nameInput.value}`,`${emailInput.value}`);
-// nameInput.value='';
-// emailInput.value='';
 
 //adding to local storage as object 
 const userdata= {
     userName:`${nameInput.value}`,
-    userEmail:`${emailInput.value}`
+    userEmail:`${emailInput.value}`,
+    userPhone:`${phoneInput.value}`
 }
 
-localStorage.setItem(`userDetails`,`${JSON.stringify(userdata)}`);
+localStorage.setItem(`${emailInput.value}`,`${JSON.stringify(userdata)}`);
+nameInput.value='';
+emailInput.value='';
+phoneInput.value='';
     }
 
 }
@@ -69,6 +72,3 @@ localStorage.setItem(`userDetails`,`${JSON.stringify(userdata)}`);
 
 // localStorage.setItem('object',`${JSON.stringify(myObj)}`);
 // console.log(localStorage);
-
-const det=JSON.parse(localStorage.getItem('userDetails'));
-console.log(det.userName);
